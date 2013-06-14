@@ -1,0 +1,9 @@
+#Example configuration options that can be placed in your main SiriProxy config.yml
+
+##########################
+#NOTICE: Modifying these options in this file has no effect. You must put them in SiriProxy's config.yml!
+##########################
+    
+    - name: 'mios'
+      git: 'git://github.com/Hackworth/SiriProxy-MiOS.git'
+      mios_host: '10.10.0.6' #Internal IP address of your Vera
