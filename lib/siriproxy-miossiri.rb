@@ -18,17 +18,25 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
     return matcher.find(input)[1]
   end
 
-  listen_for /^testmios/i do
-    @mios.devices[19].off!
-  end
-
-  listen_for /^turn on (.*)/i do |input|
+  listen_for /(?:turn on|activate) (.*)/i do |input|
     result = match(input)
     if result.respond_to?('run!')
       result.run!
+      say "Running #{result.name}"
     elsif result.respond_to?('on!') 
       result.on!
+      say "Turning on #{result.name}"
     end
   end
 
+  listen_for /(?:turn off|deactivate) (.*)/i do |input|
+    result = match(input)
+    if result.respond_to?('run!')
+      result.run!
+      say "Running #{result.name}"
+    elsif result.respond_to?('off!') 
+      result.off!
+      say "Turning off #{result.name}"
+    end
+  end
 end
