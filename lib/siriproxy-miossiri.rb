@@ -27,6 +27,7 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
       result.on!
       say "Turning on #{result.name}"
     end
+    request_completed
   end
 
   listen_for /(?:turn off|deactivate) (.*)/i do |input|
@@ -38,5 +39,6 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
       result.off!
       say "Turning off #{result.name}"
     end
+    request_completed
   end
 end
