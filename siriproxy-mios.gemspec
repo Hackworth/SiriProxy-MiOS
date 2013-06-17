@@ -16,6 +16,6 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_dependency(%q<mios>, [">= 0.2.0"])
+  gem.add_dependency(%q<mios>, [">= 0.3.0"])
   gem.add_dependency(%q<fuzzy_match>, [">= 2.0.1"])
 end
