@@ -18,9 +18,25 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
     return matcher.find(input)[1]
   end
 
-  listen_for /(?:turn on|activate) (.*)/i do |input|
+  def find_discrete(input, state)
+    case state
+    when "on"
+     state_match = "off"
+    when "off"
+     state_match = "on"
+    end
+    if input.name =~ /#{state_match}$/i
+      result = match(input.name.gsub(/#{state_match}/i, state))
+    else
+      result = input
+    end
+    return result
+  end
+
+  listen_for /(?:^turn on|^activate) (.*)/i do |input|
     result = match(input)
     if result.respond_to?('run!')
+      result = find_discrete(result, "on")
       result.run!
       say "Running #{result.name}"
     elsif result.respond_to?('on!') 
@@ -30,9 +46,10 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
     request_completed
   end
 
-  listen_for /(?:turn off|deactivate) (.*)/i do |input|
+  listen_for /(?:^turn off|^deactivate) (.*)/i do |input|
     result = match(input)
     if result.respond_to?('run!')
+      result = find_discrete(result, "off")
       result.run!
       say "Running #{result.name}"
     elsif result.respond_to?('off!') 
