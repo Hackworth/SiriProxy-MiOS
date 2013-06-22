@@ -7,16 +7,14 @@ require 'chronic'
 class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
   def initialize(config)
     host = config["mios_host"]
-
     @mios = MiOS::Interface.new("http://" + host + ":3480")
     @more = nil
   end
 
   class << self
     def listen_for(regex, options = {}, &block)
-      puts regex
-      puts options
-      puts block
+      and_regex = "(?: and (.*))?$"
+      regex = Regexp.new("#{regex}#{and_regex}")
       super
     end
   end
@@ -51,7 +49,8 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
     return result
   end
 
-  listen_for /(?:^turn on|^activate) (.*)/i do |input|
+  listen_for /(?:^turn on|^activate) (.+?)/i do |input, more|
+    @more = more
     result = match(input)
     if result.respond_to?('run!')
       result = find_discrete(result, "on")
@@ -64,7 +63,8 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
     request_completed
   end
 
-  listen_for /(?:^turn off|^deactivate) (.*)/i do |input|
+  listen_for /(?:^turn off|^deactivate) (.+?)/i do |input, more|
+    @more = more
     result = match(input)
     if result.respond_to?('run!')
       result = find_discrete(result, "off")
@@ -77,9 +77,7 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
     request_completed
   end
 
-  listen_for /(?:^set|^dim) (.+?)(?: and (.*))?$/i do |input, more|
-    puts "INPUT: #{input}"
-    puts "MORE: #{more}"
+  listen_for /(?:^set|^dim) (.+?)/i do |input, more|
     @more = more
     input = Chronic::Numerizer.numerize(input) 
     matches = input.match(/\d+/)
