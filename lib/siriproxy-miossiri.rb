@@ -60,11 +60,17 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
     request_completed
   end
 
-  listen_for /(?:^set)(.+?)(?:to)(.*)(?:precent)/i do |input, level|
+  listen_for /(?:^set|^dim) (.*)/i do |input|
+    input = Chronic::Numerizer.numerize(input) 
+    matches = input.match(/\d+/)
+    level = matches[0].to_i
+    input = matches.pre_match.gsub(/\s+/, "")
+    if level > 200 # If you say 'set bedroom to 30, siri thinks you said 230
+      level = level - 200
+    end
     result = match(input)
-    level = Chronic::Numerizer.numerize(level).to_i #ruby-mios checks if the intiger is out of bounds, we'll leave that logic out of here
     if result.respond_to?('set_level!')
-      result.set_level!(level)
+      result.set_level!(level) #ruby-mios checks if the intiger is out of bounds, we'll leave that logic out of here
       say "Setting #{result.name} to #{level} percent"
     else
       say "Sorry, #{result.name} can't be dimmed"
