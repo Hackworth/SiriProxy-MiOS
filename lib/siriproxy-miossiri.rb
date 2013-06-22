@@ -2,6 +2,7 @@ require 'cora'
 require 'siri_objects'
 require 'mios'
 require 'fuzzy_match'
+require 'chronic'
 
 class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
   def initialize(config)
@@ -57,5 +58,16 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
       say "Turning off #{result.name}"
     end
     request_completed
+  end
+
+  listen_for /(?:^set)(.+?)(?:to)(.*)(?:precent)/i do |input, level|
+    result = match(input)
+    level = Chronic::Numerizer.numerize(level).to_i #ruby-mios checks if the intiger is out of bounds, we'll leave that logic out of here
+    if result.respond_to?('set_level!')
+      result.set_level!(level)
+      say "Setting #{result.name} to #{level} percent"
+    else
+      say "Sorry, #{result.name} can't be dimmed"
+    end
   end
 end

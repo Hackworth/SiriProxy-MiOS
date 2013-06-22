@@ -18,4 +18,5 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency(%q<mios>, [">= 0.3.0"])
   gem.add_dependency(%q<fuzzy_match>, [">= 2.0.1"])
+  gem.add_dependency(%q<chronic>, [">= 0.9.1"])
 end
