@@ -9,6 +9,23 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
     host = config["mios_host"]
 
     @mios = MiOS::Interface.new("http://" + host + ":3480")
+    @more = nil
+  end
+
+  class << self
+    def listen_for(regex, options = {}, &block)
+      puts regex
+      puts options
+      puts block
+      super
+    end
+  end
+
+  def request_completed
+    if @more != nil
+      process(@more)
+      @more = nil
+    end
   end
 
   def match(input)
@@ -60,7 +77,10 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
     request_completed
   end
 
-  listen_for /(?:^set|^dim) (.*)/i do |input|
+  listen_for /(?:^set|^dim) (.+?)(?: and (.*))?$/i do |input, more|
+    puts "INPUT: #{input}"
+    puts "MORE: #{more}"
+    @more = more
     input = Chronic::Numerizer.numerize(input) 
     matches = input.match(/\d+/)
     level = matches[0].to_i
@@ -75,5 +95,6 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
     else
       say "Sorry, #{result.name} can't be dimmed"
     end
+    request_completed
   end
 end
