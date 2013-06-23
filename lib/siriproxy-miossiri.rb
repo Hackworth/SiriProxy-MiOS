@@ -27,8 +27,7 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
 
   def request_completed
     if @more != nil
-      cora = SiriProxy::PluginManager.new
-      cora.process(@more)
+      process(@more)
       @more = nil
     end
     super
