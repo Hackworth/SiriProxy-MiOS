@@ -19,13 +19,14 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
     end
   end
 
+  SiriProxy::Plugin.class_eval do
+    def last_ref_id
+      0
+    end
+  end
+
   def request_completed
     if @more != nil
-      SiriProxy::Plugin.class_eval do
-        def last_ref_id
-          0
-        end
-      end
       cora = SiriProxy::PluginManager.new
       cora.process(@more)
       @more = nil
