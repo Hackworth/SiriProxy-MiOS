@@ -24,6 +24,7 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
       process(@more)
       @more = nil
     end
+    super
   end
 
   def match(input)
