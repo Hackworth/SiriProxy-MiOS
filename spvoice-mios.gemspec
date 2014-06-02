@@ -4,12 +4,12 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'version'
 
 Gem::Specification.new do |gem|
-  gem.name        = "siriproxy-miossiri"
-  gem.version     = MiOSsiri::VERSION
+  gem.name        = "spvoice-mios"
+  gem.version     = SPVoiceMiOS::VERSION
   gem.authors     = ["Jordan Hackworth"]
   gem.email       = ["dev@jordanhackworth.com"]
-  gem.summary     = %q{Siri Proxy Plugin to control MiOS}
-  gem.description = %q{This is a plugin that allows you to control MiOS using Siri}
+  gem.summary     = %q{SPVoice Proxy Plugin to control MiOS}
+  gem.description = %q{This is a plugin that allows you to control MiOS using SPVoice}
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }

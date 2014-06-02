@@ -1,10 +1,9 @@
 require 'cora'
-require 'siri_objects'
 require 'mios'
 require 'fuzzy_match'
 require 'chronic'
 
-class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
+class SPVoice::Plugin::SPVoiceMiOS < SPVoice::Plugin
   def initialize(config)
     host = config["mios_host"]
     @mios = MiOS::Interface.new("http://" + host + ":3480")
@@ -16,12 +15,6 @@ class SiriProxy::Plugin::MiOSsiri < SiriProxy::Plugin
       and_regex = "(?: and (.*))?$"
       regex = Regexp.new("#{regex}#{and_regex}")
       super
-    end
-  end
-
-  SiriProxy::Plugin.class_eval do
-    def last_ref_id
-      0
     end
   end
 

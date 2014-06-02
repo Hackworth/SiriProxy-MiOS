@@ -1,3 +1,3 @@
-module MiOSsiri
-  VERSION = "0.1.7"
+module SPVoiceMiOS
+  VERSION = "0.1.8"
 end
