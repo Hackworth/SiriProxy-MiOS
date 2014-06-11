@@ -3,7 +3,7 @@ require 'mios'
 require 'fuzzy_match'
 require 'chronic'
 
-class SPVoice::Plugin::SPVoiceMiOS < SPVoice::Plugin
+class SPVoice::Plugin::MiOSspvoice < SPVoice::Plugin
   def initialize(config)
     host = config["mios_host"]
     @mios = MiOS::Interface.new("http://" + host + ":3480")

@@ -1,11 +1,12 @@
 # -*- encoding: utf-8 -*-
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+#lib = File.expand_path('../lib', __FILE__)
+#$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+$:.push File.expand_path("../lib", __FILE__)
 require 'version'
 
 Gem::Specification.new do |gem|
-  gem.name        = "spvoice-mios"
-  gem.version     = SPVoiceMiOS::VERSION
+  gem.name        = "spvoice-miosspvoice"
+  gem.version     = MiOSspvoice::VERSION
   gem.authors     = ["Jordan Hackworth"]
   gem.email       = ["dev@jordanhackworth.com"]
   gem.summary     = %q{SPVoice Proxy Plugin to control MiOS}
